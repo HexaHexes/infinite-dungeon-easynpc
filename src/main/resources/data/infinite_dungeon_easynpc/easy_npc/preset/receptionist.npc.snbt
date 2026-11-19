@@ -27,6 +27,25 @@
     CanPickUpLoot:0b,
     CustomName:'{"text":"Receptionist"}',
     CustomNameVisible:1b,
+    DialogData:{
+      Type:"STANDARD",
+      DialogDataSet:[{
+        Name:"welcome",
+        Texts:[{
+          Text:"Welcome to the guild! I handle registration and the task board."
+        }]
+      },{
+        Name:"help",
+        Texts:[{
+          Text:"Ask me about quests or bounties - every task is posted here on the first floor."
+        }]
+      },{
+        Name:"farewell",
+        Texts:[{
+          Text:"Safe roads, and mind the depths."
+        }]
+      }]
+    },
     EasyNPCVersion:3,
     HandDropChances:[0.085f,0.085f],
     HandItems:[{},{}],

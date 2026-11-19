@@ -116,6 +116,30 @@ public final class LobbyNpcGameTests {
         helper.succeed();
     }
 
+    /**
+     * The receptionist carries authored dialog content: a non-empty dialog set
+     * with a welcome entry and its text. The live dialog screen is an in-game
+     * check; the shipped structure is pinned here.
+     */
+    @GameTest(template = "empty")
+    public static void receptionist_preset_carries_the_registration_dialog(GameTestHelper helper) {
+        CompoundTag root = loadPreset(helper, LobbyNpcs.RECEPTIONIST_PRESET);
+        CompoundTag dialogData = root.getCompound("data").getCompound("DialogData");
+        ListTag dialogs = dialogData.getList("DialogDataSet", Tag.TAG_COMPOUND);
+        helper.assertTrue(!dialogs.isEmpty(),
+                "the receptionist must carry authored dialog content");
+        boolean welcome = false;
+        for (Tag dialog : dialogs) {
+            CompoundTag entry = (CompoundTag) dialog;
+            if ("welcome".equals(entry.getString("Name"))) {
+                welcome = !entry.getList("Texts", Tag.TAG_COMPOUND).isEmpty();
+            }
+        }
+        helper.assertTrue(welcome,
+                "the welcome dialog must exist and carry a text (registration and tasks)");
+        helper.succeed();
+    }
+
     private static CompoundTag loadPreset(GameTestHelper helper, ResourceLocation location) {
         var resource = helper.getLevel().getServer().getResourceManager().getResource(location);
         helper.assertTrue(resource.isPresent(), "the preset resource must ship: " + location);
