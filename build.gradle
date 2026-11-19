@@ -115,12 +115,21 @@ tasks.withType(JavaCompile).configureEach {
 // run, so this configuration must stay wired in every derived repo.
 repositories {
     mavenCentral()
+    // EasyNPC is Modrinth-exclusive (spike issue HexaHexes/infinite-dungeon#132
+    // verified 7.17.1 on 1.21.1 NeoForge). compileOnly only: the NPC import
+    // glue lives behind a ModList gate so no EasyNPC class ever loads when the
+    // mod is absent (see agents/REPO.md). Pin deliberately, never implicitly.
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
 }
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.2')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    compileOnly 'maven.modrinth:easy-npc-core:QyvBBoEd'
 }
 
 test {
@@ -133,7 +142,7 @@ test {
 // "All N required tests passed :)" when every required test succeeds. Keep
 // expectedTests in sync with the @GameTest methods in src/gametest.
 tasks.matching { it.name == 'runGameTestServer' }.configureEach {
-    def expectedTests = 1
+    def expectedTests = 3
     doLast {
         def log = file('run/logs/latest.log')
         if (!log.exists()) {
