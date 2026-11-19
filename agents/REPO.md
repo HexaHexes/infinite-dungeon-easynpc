@@ -41,6 +41,12 @@ in `build.gradle` must match the `@GameTest` count.
   the extras). A rename edits `identity.properties`, `settings.gradle` and the
   code — never gradle.properties (the `-alpha` version slot there is
   CI/CD-owned).
+- **`LobbyFloor` mirrors the upstream lobby contract** (infinite-dungeon #131,
+  landed as `LobbyFloors` in #288): the five fixed floors and their roles. It
+  is data, not a class reference, to keep this module decoupled from the
+  optional infinite-dungeon artifact. If the upstream contract changes, update
+  the mirror AND its GameTest (`lobby_floor_mirror_matches_the_upstream_contract`)
+  in the same PR.
 - The NPC dialog/task content is EasyNPC authored content (in-game GUI +
   presets), which cannot be proven headless — the honest scope for such pieces
   is "build green + the user's in-game check", per the org rules.

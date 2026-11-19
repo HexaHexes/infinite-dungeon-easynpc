@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import org.bitwisemadness.infinitedungeoneasynpc.InfiniteDungeonEasyNpc;
+import org.bitwisemadness.infinitedungeoneasynpc.lobby.LobbyFloor;
 import org.bitwisemadness.infinitedungeoneasynpc.lobby.LobbyNpcs;
 
 /**
@@ -74,6 +75,68 @@ public final class LobbyNpcGameTests {
                 "interaction must open the default dialog, got " + types);
         helper.assertTrue(!types.contains("OPEN_TRADING_SCREEN"),
                 "the trading action must be stripped (Lightman's Currency ruling), got " + types);
+        helper.succeed();
+    }
+
+    /**
+     * The floor mirror matches the upstream lobby contract (infinite-dungeon
+     * #131, landed as LobbyFloors in #288): exactly five fixed floors, each
+     * with its authoritative role, top-anchored.
+     */
+    @GameTest(template = "empty")
+    public static void lobby_floor_mirror_matches_the_upstream_contract(GameTestHelper helper) {
+        LobbyFloor[] floors = LobbyFloor.values();
+        helper.assertTrue(floors.length == 5,
+                "the mirror must carry exactly five fixed floors, got " + floors.length);
+        for (int i = 0; i < floors.length; i++) {
+            helper.assertTrue(floors[i].index() == i,
+                    floors[i] + " must be floor " + i + ", got " + floors[i].index());
+        }
+        helper.assertTrue(floors[0] == LobbyFloor.GUILD_RECEPTION
+                        && floors[1] == LobbyFloor.GUILD_SHOPS
+                        && floors[2] == LobbyFloor.SPECIALISED_SHOPS
+                        && floors[3] == LobbyFloor.ADVANCED_SHOPS
+                        && floors[4] == LobbyFloor.WAYSTONE_ROOM,
+                "the mirror's floor roles must match the upstream contract");
+        helper.succeed();
+    }
+
+    /** The slot table places every NPC on its authoritative floor, preset or not. */
+    @GameTest(template = "empty")
+    public static void slot_table_places_each_npc_at_its_authoritative_floor(GameTestHelper helper) {
+        helper.assertTrue(LobbyNpcs.RECEPTIONIST.floor() == LobbyFloor.GUILD_RECEPTION
+                        && LobbyNpcs.RECEPTIONIST.hasPreset(),
+                "the receptionist stands on floor 0 (guild reception) with authored content");
+        helper.assertTrue(LobbyNpcs.GUILD_MASTER.floor() == LobbyFloor.GUILD_RECEPTION
+                        && !LobbyNpcs.GUILD_MASTER.hasPreset(),
+                "the guild master (issue 2) is declared on floor 0's office, preset pending");
+        helper.assertTrue(LobbyNpcs.ADVENTURER.floor() == LobbyFloor.WAYSTONE_ROOM
+                        && !LobbyNpcs.ADVENTURER.hasPreset(),
+                "the adventurers (issue 3) are declared on floor 4's waystone room, preset pending");
+        helper.succeed();
+    }
+
+    /**
+     * The receptionist carries authored dialog content: a non-empty dialog set
+     * with a welcome entry and its text. The live dialog screen is an in-game
+     * check; the shipped structure is pinned here.
+     */
+    @GameTest(template = "empty")
+    public static void receptionist_preset_carries_the_registration_dialog(GameTestHelper helper) {
+        CompoundTag root = loadPreset(helper, LobbyNpcs.RECEPTIONIST_PRESET);
+        CompoundTag dialogData = root.getCompound("data").getCompound("DialogData");
+        ListTag dialogs = dialogData.getList("DialogDataSet", Tag.TAG_COMPOUND);
+        helper.assertTrue(!dialogs.isEmpty(),
+                "the receptionist must carry authored dialog content");
+        boolean welcome = false;
+        for (Tag dialog : dialogs) {
+            CompoundTag entry = (CompoundTag) dialog;
+            if ("welcome".equals(entry.getString("Name"))) {
+                welcome = !entry.getList("Texts", Tag.TAG_COMPOUND).isEmpty();
+            }
+        }
+        helper.assertTrue(welcome,
+                "the welcome dialog must exist and carry a text (registration and tasks)");
         helper.succeed();
     }
 
