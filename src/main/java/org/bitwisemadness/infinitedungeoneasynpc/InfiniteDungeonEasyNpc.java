@@ -3,6 +3,8 @@ package org.bitwisemadness.infinitedungeoneasynpc;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import org.bitwisemadness.infinitedungeoneasynpc.lobby.LobbyNpcs;
 import org.slf4j.Logger;
 
 /**
@@ -21,6 +23,7 @@ public final class InfiniteDungeonEasyNpc {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public InfiniteDungeonEasyNpc(IEventBus modBus) {
+        NeoForge.EVENT_BUS.addListener(LobbyNpcs::onServerStarted);
         LOGGER.info("Infinite Dungeon EasyNPC content module initialized");
     }
 }
