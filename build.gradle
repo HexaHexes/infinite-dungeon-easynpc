@@ -123,6 +123,14 @@ repositories {
         name = 'Modrinth'
         url = 'https://api.modrinth.com/maven'
     }
+    maven {
+        name = 'HexaHexesInfiniteDungeonApi'
+        url = uri('https://maven.pkg.github.com/HexaHexes/infinite-dungeon-api')
+        credentials {
+            username = System.getenv('GITHUB_ACTOR') ?: project.findProperty('gpr.user')
+            password = System.getenv('GITHUB_TOKEN') ?: project.findProperty('gpr.key')
+        }
+    }
 }
 
 dependencies {
@@ -130,6 +138,13 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     compileOnly 'maven.modrinth:easy-npc-core:QyvBBoEd'
+    // The infinite-dungeon API: the dialogue port (DialogueSessions) the NPC
+    // dialog bridge commits to. The API ships inside Infinite Dungeon, so both
+    // compileOnly and the runtime gate (LobbyNpcs.isEligible) keep it from ever
+    // loading here on its own; the JUnit suite needs it at test runtime for the
+    // pure bridge tests.
+    compileOnly 'org.bitwisemadness.infinitedungeonapi:infinite_dungeon_api:1.0.0-alpha.19'
+    testImplementation 'org.bitwisemadness.infinitedungeonapi:infinite_dungeon_api:1.0.0-alpha.19'
 }
 
 test {
