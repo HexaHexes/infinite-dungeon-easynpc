@@ -1,12 +1,19 @@
-# Example Mod
+# Infinite Dungeon EasyNPC
 
-A short, player-facing pitch goes here: one or two sentences on what the mod adds
-or changes, written for someone deciding whether to install it.
+Populates Infinite Dungeon's fixed lobby with EasyNPC characters: the floor-1
+receptionist at the counter, the guild master in the office, and adventurer
+NPCs around the guild, the shops and on floor 5. NPCs are characters only —
+every transaction stays a Lightman's Currency trader, so EasyNPC never sells
+or buys. Without EasyNPC the lobby is simply empty: no NPCs, Infinite Dungeon
+unaffected.
 
 ## What it does
 
-- Describe the first mechanic in plain terms.
-- Describe the second mechanic in plain terms.
+- Imports the lobby's authored NPC presets at their fixed positions when
+  EasyNPC is present.
+- The floor-1 counter receptionist handles registration and tasks.
+- The guild master in the floor-1 office and the adventurer ambience ship in
+  the sibling issues (2 and 3).
 
 ## Dependencies
 
@@ -14,7 +21,8 @@ or changes, written for someone deciding whether to install it.
 |---|---|---|
 | Required | Minecraft | — |
 | Required | NeoForge | — |
-| Optional | Example Library | What breaks or is missing without it |
+| Optional | EasyNPC | The NPCs themselves; absent -> empty rooms, module inert |
+| Optional | Infinite Dungeon | The fixed lobby this module populates; absent -> nothing to place |
 
 ## In-game config editing
 
