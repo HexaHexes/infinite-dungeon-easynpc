@@ -33,6 +33,14 @@ in `build.gradle` must match the `@GameTest` count.
 **Gotchas**
 - Zero mixins: this is a public-API addon (org doctrine). The template's mixins
   block and `examplemod.mixins.json` were removed on bootstrap.
+- **Mod identity lives in `identity.properties`, not gradle.properties.** The
+  version-bump check forbids bundling gradle.properties with other changes,
+  while a rename must ship its identity with code — so build.gradle loads
+  `identity.properties` into the project extras, and gradle.properties stays
+  byte-identical (its leftover template identity keys are inert, shadowed by
+  the extras). A rename edits `identity.properties`, `settings.gradle` and the
+  code — never gradle.properties (the `-alpha` version slot there is
+  CI/CD-owned).
 - The NPC dialog/task content is EasyNPC authored content (in-game GUI +
   presets), which cannot be proven headless — the honest scope for such pieces
   is "build green + the user's in-game check", per the org rules.

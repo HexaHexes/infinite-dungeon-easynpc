@@ -39,48 +39,31 @@ This template pre-wires the config-screen background in
 like. Note Configured only shows a menu for mods that actually register a
 config: a template-derived mod with no registered settings has nothing to show.
 
-## Using this template
+## Module layout
 
-This repository is a **template** for new NeoForge mods in this org. To start a
-mod from it: create a new repository from this template (or copy the folder),
-then work through the **rename checklist** below. Every step is mechanical.
+Derived from the org's `neoforge-mod-template` (bootstrap PR), with one
+deliberate deviation: the mod identity lives in **`identity.properties`**,
+loaded by `build.gradle` into the project extras. `gradle.properties` keeps
+only the CI-owned version slot — the version-bump check forbids bundling
+`gradle.properties` with other changes, while a rename must ship its identity
+with its code. A rename therefore touches:
 
-### Rename checklist
-
-The mod's identity is deliberately concentrated so a rename touches a handful of
-known places. Search the repo for each of these before you start.
-
-1. **`gradle.properties`**: set `mod_id`, `mod_name`, `mod_version`,
-   `mod_group_id`, `mod_authors`, `mod_description`. This is the single source
-   of truth: `build.gradle` reads these, and the `neoforge.mods.toml`
-   placeholders are filled from them at build time.
-2. **`settings.gradle`**: set `rootProject.name` to the same value as `mod_id`.
-3. **`build.gradle`**: `archivesName` already reads `mod_id`; leave it unless
-   you want a jar name that differs from the mod id.
-4. **Java package**: move `src/main/java/org/bitwisemadness/examplemod/` and
-   `src/gametest/java/org/bitwisemadness/examplemod/` to your new
-   `mod_group_id` path, and update the `package` declarations.
-5. **`ExampleMod.MOD_ID`**: set the constant to the new `mod_id`. It is the
-   value `@Mod` is annotated with, and it must match `mod_id` exactly.
-6. **Mixins config**: rename `src/main/resources/examplemod.mixins.json` to
-   `<mod_id>.mixins.json`, and set its `package` to your mixin package. The
-   `[[mixins]]` entry in `src/main/templates/META-INF/neoforge.mods.toml`
-   already references it by `${mod_id}.mixins.json`.
-7. **GameTest template structure**: if you keep the smoke test, the structure
-   lives at `src/gametest/resources/data/<mod_id>/structure/empty.nbt`; move it
-   under your new mod id. The smoke test's `@GameTest(template = "empty")`
-   resolves it.
-8. **`agents/REPO.md`**: fill in the repo header (repo, mod id, jar name), the
-   description, the dependencies, the test line and the gotchas. Do not edit
-   `agents/AGENTS.md`: it is pulled verbatim from the template repo and only
-   changes there.
-9. **Publishing block in `build.gradle`**: set the GitHub Packages URL in the
-   `publishing` block to this repository
-   (`https://maven.pkg.github.com/HexaHexes/<repo-name>`); the artifactId and the
-   pom metadata already read from `gradle.properties`.
-10. **`NOTICE`**: replace `<project name>` with the mod name and add attribution
-    for anything the mod reads through public APIs or includes. The file is
-    mandatory and must never be deleted.
+1. **`identity.properties`**: `mod_id`, `mod_name`, `mod_group_id`,
+   `mod_authors`, `mod_description`. This is the single source of truth for
+   identity: `build.gradle` reads these into the extras the
+   `neoforge.mods.toml` placeholders are filled from. The leftover template
+   identity keys in `gradle.properties` are inert (shadowed by the extras).
+2. **`settings.gradle`**: `rootProject.name` to the same value as `mod_id`.
+3. **Java package**: `src/main/java` and `src/gametest/java` under the new
+   `mod_group_id` path, with updated `package` declarations.
+4. **`InfiniteDungeonEasyNpc.MOD_ID`**: the `@Mod` id, which must match
+   `mod_id` exactly.
+5. **`agents/REPO.md`**: repo header, dependencies, test line, gotchas. Never
+   edit `agents/AGENTS.md` — it is pulled verbatim from the template repo.
+6. **Publishing block in `build.gradle`**: the GitHub Packages URL
+   (`https://maven.pkg.github.com/HexaHexes/<repo-name>`).
+7. **`NOTICE`**: the project name. The file is mandatory and must never be
+   deleted.
 
 Search for leftovers before your first build:
 

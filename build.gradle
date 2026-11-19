@@ -7,6 +7,24 @@ plugins {
     id 'com.diffplug.spotless' version '8.10.4'
 }
 
+// Identity loads from identity.properties, NOT gradle.properties: the
+// version-bump doctrine treats gradle.properties as the CI-owned version slot
+// (a PR must not bundle it with other changes), while a rename must ship its
+// identity alongside code. The template's identity keys left in
+// gradle.properties are inert - project extras shadow them (AGENTS.md's
+// PowerShell note applies only to file writes, not Gradle property
+// resolution). mod_license and mod_version stay in gradle.properties.
+def identityProps = new Properties()
+def identityFile = file('identity.properties')
+if (identityFile.exists()) {
+    identityFile.withInputStream { identityProps.load(it) }
+    ext.mod_id = identityProps.getProperty('mod_id')
+    ext.mod_name = identityProps.getProperty('mod_name')
+    ext.mod_group_id = identityProps.getProperty('mod_group_id')
+    ext.mod_authors = identityProps.getProperty('mod_authors')
+    ext.mod_description = identityProps.getProperty('mod_description')
+}
+
 version = mod_version
 group = mod_group_id
 
