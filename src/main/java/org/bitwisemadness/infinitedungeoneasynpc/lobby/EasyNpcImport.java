@@ -28,19 +28,21 @@ public final class EasyNpcImport {
      * Places the receptionist at the counter exactly once. A world that
      * already has the character (custom identifier present) is left alone;
      * otherwise the authored preset is imported at the fixed position with a
-     * fresh identity.
+     * fresh identity. Slots without authored content are skipped - the import
+     * never fabricates a character (issues 2 and 3 land their presets later).
      */
     public static void ensureReceptionist(ServerLevel level) {
-        if (!EasyNPCEntityHandler.getByCustomIdentifier(LobbyNpcs.RECEPTIONIST_ID).isEmpty()) {
+        LobbySlot slot = LobbyNpcs.RECEPTIONIST;
+        if (!EasyNPCEntityHandler.getByCustomIdentifier(slot.customIdentifier()).isEmpty()) {
             return;
         }
-        EasyNPCEntityHandler.spawnFromPreset(
+        slot.preset().ifPresent(preset -> EasyNPCEntityHandler.spawnFromPreset(
                 PresetType.DATA,
-                LobbyNpcs.RECEPTIONIST_PRESET,
+                preset,
                 level,
                 LobbyNpcs.RECEPTIONIST_POSITION,
                 UUID.randomUUID(),
                 null,
-                LobbyNpcs.RECEPTIONIST_ID);
+                slot.customIdentifier()));
     }
 }

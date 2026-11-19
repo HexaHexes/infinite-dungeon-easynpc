@@ -1,5 +1,6 @@
 package org.bitwisemadness.infinitedungeoneasynpc.lobby;
 
+import java.util.Optional;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.phys.Vec3;
@@ -10,8 +11,8 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
  * The lobby NPC placement contract (issue 1 and siblings).
  *
  * <p>Everything that is provable without a live EasyNPC instance lives here:
- * the eligibility gate, the slot table (one authored character per slot, with
- * its preset resource and its fixed lobby position), and the idempotent
+ * the eligibility gate, the slot table (one authored character per slot, on
+ * its fixed lobby floor per the upstream floor contract), and the idempotent
  * orchestration seam. The EasyNPC-touching work is isolated in
  * {@link EasyNpcImport} so this class - and every class it reaches while
  * EasyNPC is absent - carries zero EasyNPC references (the class-loading
@@ -24,10 +25,6 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
  */
 public final class LobbyNpcs {
 
-    /** The receptionist's custom identifier: the idempotency key EasyNPC persists. */
-    public static final ResourceLocation RECEPTIONIST_ID =
-            ResourceLocation.fromNamespaceAndPath("infinite_dungeon_easynpc", "lobby_receptionist");
-
     /** The authored receptionist preset (data-driven content, not code). */
     public static final ResourceLocation RECEPTIONIST_PRESET =
             ResourceLocation.fromNamespaceAndPath(
@@ -35,11 +32,23 @@ public final class LobbyNpcs {
 
     /**
      * The floor-1 counter position the receptionist stands at, as authored
-     * content. Pending the floor-1 room layout (infinite-dungeon issue 138)
-     * this is a documented constant the in-game check confirms; the import
-     * never guesses, it uses exactly this.
+     * content. Pending the physical lobby geometry (infinite-dungeon #63, the
+     * tower-entrance construction) this is a documented constant the in-game
+     * check confirms; the import never guesses, it uses exactly this.
      */
     public static final Vec3 RECEPTIONIST_POSITION = new Vec3(0.0, 0.0, 0.0);
+
+    /** The slot table: one authored character per slot, on its fixed floor. */
+    public static final LobbySlot RECEPTIONIST = new LobbySlot(
+            "lobby_receptionist", LobbyFloor.GUILD_RECEPTION, Optional.of(RECEPTIONIST_PRESET));
+
+    /** The guild master slot (issue 2): the floor-1 office, awaiting its authored preset. */
+    public static final LobbySlot GUILD_MASTER = new LobbySlot(
+            "lobby_guild_master", LobbyFloor.GUILD_RECEPTION, Optional.empty());
+
+    /** The adventurer slot (issue 3): the floor-5 waystone room, awaiting its authored preset. */
+    public static final LobbySlot ADVENTURER = new LobbySlot(
+            "lobby_adventurer", LobbyFloor.WAYSTONE_ROOM, Optional.empty());
 
     private LobbyNpcs() {
     }
