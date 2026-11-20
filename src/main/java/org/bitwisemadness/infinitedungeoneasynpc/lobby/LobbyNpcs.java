@@ -38,13 +38,18 @@ public final class LobbyNpcs {
      */
     public static final Vec3 RECEPTIONIST_POSITION = new Vec3(0.0, 0.0, 0.0);
 
+    /** The authored guild master preset (issue 2, data-driven content, not code). */
+    public static final ResourceLocation GUILD_MASTER_PRESET =
+            ResourceLocation.fromNamespaceAndPath(
+                    "infinite_dungeon_easynpc", "easy_npc/preset/guild_master.npc.snbt");
+
     /** The slot table: one authored character per slot, on its fixed floor. */
     public static final LobbySlot RECEPTIONIST = new LobbySlot(
             "lobby_receptionist", LobbyFloor.GUILD_RECEPTION, Optional.of(RECEPTIONIST_PRESET));
 
-    /** The guild master slot (issue 2): the floor-1 office, awaiting its authored preset. */
+    /** The guild master slot (issue 2): the floor-1 office, with its authored preset. */
     public static final LobbySlot GUILD_MASTER = new LobbySlot(
-            "lobby_guild_master", LobbyFloor.GUILD_RECEPTION, Optional.empty());
+            "lobby_guild_master", LobbyFloor.GUILD_RECEPTION, Optional.of(GUILD_MASTER_PRESET));
 
     /** The adventurer slot (issue 3): the floor-5 waystone room, awaiting its authored preset. */
     public static final LobbySlot ADVENTURER = new LobbySlot(
