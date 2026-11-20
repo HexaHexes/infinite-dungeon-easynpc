@@ -32,7 +32,7 @@
       DialogDataSet:[{
         Name:"welcome",
         Texts:[{
-          Text:"Welcome, @initiator. Registration grants your rank - rise through the floors and it rises with you."
+          Text:"Welcome, @initiator. The @npc grants your rank - rise through the floors and it rises with you."
         }]
       },{
         Name:"advice",

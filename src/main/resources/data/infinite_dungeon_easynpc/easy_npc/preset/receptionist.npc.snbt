@@ -37,7 +37,7 @@
       },{
         Name:"help",
         Texts:[{
-          Text:"Ask me about quests or bounties, @initiator - every task is posted here on the first floor."
+          Text:"Ask the @npc about quests or bounties, @initiator - every task is posted here on the first floor."
         }]
       },{
         Name:"farewell",
