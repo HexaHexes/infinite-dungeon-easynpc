@@ -118,8 +118,10 @@ public final class LobbyNpcGameTests {
 
     /**
      * The receptionist carries authored dialog content: a non-empty dialog set
-     * with a welcome entry and its text. The live dialog screen is an in-game
-     * check; the shipped structure is pinned here.
+     * with a welcome entry and its text, using EasyNPC's expandable variables
+     * (@initiator) so the stored template is shared and cacheable - the
+     * per-player expansion happens at display, never in the content. The live
+     * dialog screen is an in-game check; the shipped structure is pinned here.
      */
     @GameTest(template = "empty")
     public static void receptionist_preset_carries_the_registration_dialog(GameTestHelper helper) {
@@ -132,7 +134,13 @@ public final class LobbyNpcGameTests {
         for (Tag dialog : dialogs) {
             CompoundTag entry = (CompoundTag) dialog;
             if ("welcome".equals(entry.getString("Name"))) {
-                welcome = !entry.getList("Texts", Tag.TAG_COMPOUND).isEmpty();
+                ListTag texts = entry.getList("Texts", Tag.TAG_COMPOUND);
+                welcome = !texts.isEmpty();
+                if (!texts.isEmpty()) {
+                    helper.assertTrue(
+                            texts.getCompound(0).getString("Text").contains("@initiator"),
+                            "the welcome must use an expandable variable, not a hardcoded name");
+                }
             }
         }
         helper.assertTrue(welcome,

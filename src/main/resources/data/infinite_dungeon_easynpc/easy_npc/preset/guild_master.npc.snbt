@@ -32,17 +32,17 @@
       DialogDataSet:[{
         Name:"welcome",
         Texts:[{
-          Text:"Welcome. Registration grants your rank - rise through the floors and it rises with you."
+          Text:"Welcome, @initiator. Registration grants your rank - rise through the floors and it rises with you."
         }]
       },{
         Name:"advice",
         Texts:[{
-          Text:"Mind the depths. Parties that respect the floors return with proof and profit."
+          Text:"Mind the depths, @initiator. Parties that respect the floors return with proof and profit."
         }]
       },{
         Name:"farewell",
         Texts:[{
-          Text:"Safe roads, and mind the depths."
+          Text:"Safe roads, @initiator, and mind the depths."
         }]
       }]
     },
