@@ -111,8 +111,8 @@ public final class LobbyNpcGameTests {
                         && LobbyNpcs.GUILD_MASTER.hasPreset(),
                 "the guild master (issue 2) is on floor 0's office with authored content");
         helper.assertTrue(LobbyNpcs.ADVENTURER.floor() == LobbyFloor.WAYSTONE_ROOM
-                        && !LobbyNpcs.ADVENTURER.hasPreset(),
-                "the adventurers (issue 3) are declared on floor 4's waystone room, preset pending");
+                        && LobbyNpcs.ADVENTURER.hasPreset(),
+                "the adventurers (issue 3) are on floor 4's waystone room with authored content");
         helper.succeed();
     }
 
@@ -180,6 +180,37 @@ public final class LobbyNpcGameTests {
         }
         helper.assertTrue(welcome,
                 "the guild master's welcome dialog must exist and carry a text");
+        helper.succeed();
+    }
+
+    /** The adventurer carries the same contract: dialog on interaction, trading stripped, authored welcome. */
+    @GameTest(template = "empty")
+    public static void adventurer_preset_carries_the_ruling(GameTestHelper helper) {
+        CompoundTag root = loadPreset(helper, LobbyNpcs.ADVENTURER_PRESET);
+        ListTag interactions = root.getCompound("data")
+                .getCompound("ActionData")
+                .getCompound("ActionEventSet")
+                .getList("ON_INTERACTION", Tag.TAG_COMPOUND);
+        List<String> types = new ArrayList<>();
+        for (Tag action : interactions) {
+            types.add(((CompoundTag) action).getString("Type"));
+        }
+        helper.assertTrue(types.contains("OPEN_DEFAULT_DIALOG"),
+                "interaction must open the default dialog, got " + types);
+        helper.assertTrue(!types.contains("OPEN_TRADING_SCREEN"),
+                "the trading action must be stripped (Lightman's Currency ruling), got " + types);
+        ListTag dialogs = root.getCompound("data")
+                .getCompound("DialogData")
+                .getList("DialogDataSet", Tag.TAG_COMPOUND);
+        boolean welcome = false;
+        for (Tag dialog : dialogs) {
+            CompoundTag entry = (CompoundTag) dialog;
+            if ("welcome".equals(entry.getString("Name"))) {
+                welcome = !entry.getList("Texts", Tag.TAG_COMPOUND).isEmpty();
+            }
+        }
+        helper.assertTrue(welcome,
+                "the adventurer's welcome dialog must exist and carry a text");
         helper.succeed();
     }
 
