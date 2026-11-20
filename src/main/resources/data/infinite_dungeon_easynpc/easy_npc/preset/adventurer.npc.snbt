@@ -32,17 +32,17 @@
       DialogDataSet:[{
         Name:"welcome",
         Texts:[{
-          Text:"Just back from the depths. The lower layers are no place for the unprepared."
+          Text:"Just back from the depths, @initiator. The lower layers are no place for the unprepared."
         }]
       },{
         Name:"advice",
         Texts:[{
-          Text:"Stock up before you descend - the shops on the floors above cover the essentials."
+          Text:"Stock up before you descend, @initiator - the shops on the floors above cover the essentials."
         }]
       },{
         Name:"farewell",
         Texts:[{
-          Text:"Safe roads, and mind the depths."
+          Text:"Safe roads, @initiator, and mind the depths."
         }]
       }]
     },
