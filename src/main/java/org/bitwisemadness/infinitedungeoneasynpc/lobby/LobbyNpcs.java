@@ -51,9 +51,14 @@ public final class LobbyNpcs {
     public static final LobbySlot GUILD_MASTER = new LobbySlot(
             "lobby_guild_master", LobbyFloor.GUILD_RECEPTION, Optional.of(GUILD_MASTER_PRESET));
 
-    /** The adventurer slot (issue 3): the floor-5 waystone room, awaiting its authored preset. */
+    /** The authored adventurer preset (issue 3, data-driven content, not code). */
+    public static final ResourceLocation ADVENTURER_PRESET =
+            ResourceLocation.fromNamespaceAndPath(
+                    "infinite_dungeon_easynpc", "easy_npc/preset/adventurer.npc.snbt");
+
+    /** The adventurer slot (issue 3): the floor-5 waystone room, with its authored preset. */
     public static final LobbySlot ADVENTURER = new LobbySlot(
-            "lobby_adventurer", LobbyFloor.WAYSTONE_ROOM, Optional.empty());
+            "lobby_adventurer", LobbyFloor.WAYSTONE_ROOM, Optional.of(ADVENTURER_PRESET));
 
     private LobbyNpcs() {
     }
