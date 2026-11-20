@@ -37,7 +37,7 @@
       },{
         Name:"advice",
         Texts:[{
-          Text:"Stock up before you descend, @initiator - the shops on the floors above cover the essentials."
+          Text:"Stock up before you descend, @initiator - ask the @npc for the essentials the shops carry."
         }]
       },{
         Name:"farewell",
