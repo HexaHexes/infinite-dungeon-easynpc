@@ -32,17 +32,17 @@
       DialogDataSet:[{
         Name:"welcome",
         Texts:[{
-          Text:"Welcome to the guild! I handle registration and the task board."
+          Text:"Welcome to the guild, @initiator! I handle registration and the task board."
         }]
       },{
         Name:"help",
         Texts:[{
-          Text:"Ask me about quests or bounties - every task is posted here on the first floor."
+          Text:"Ask the @npc about quests or bounties, @initiator - every task is posted here on the first floor."
         }]
       },{
         Name:"farewell",
         Texts:[{
-          Text:"Safe roads, and mind the depths."
+          Text:"Safe roads, @initiator, and mind the depths."
         }]
       }]
     },

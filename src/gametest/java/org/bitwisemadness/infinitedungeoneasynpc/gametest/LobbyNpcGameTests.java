@@ -117,9 +117,11 @@ public final class LobbyNpcGameTests {
     }
 
     /**
-     * The receptionist carries authored dialog content: a non-empty dialog set
-     * with a welcome entry and its text. The live dialog screen is an in-game
-     * check; the shipped structure is pinned here.
+     * The receptionist carries authored dialog content using EasyNPC's
+     * expandable variables (@initiator for the player, @npc for the character)
+     * so the stored template is shared and cacheable - the per-player
+     * expansion happens at display, never in the content. The live dialog
+     * screen is an in-game check; the shipped structure is pinned here.
      */
     @GameTest(template = "empty")
     public static void receptionist_preset_carries_the_registration_dialog(GameTestHelper helper) {
@@ -129,14 +131,26 @@ public final class LobbyNpcGameTests {
         helper.assertTrue(!dialogs.isEmpty(),
                 "the receptionist must carry authored dialog content");
         boolean welcome = false;
+        boolean usesInitiator = false;
+        boolean usesNpc = false;
         for (Tag dialog : dialogs) {
             CompoundTag entry = (CompoundTag) dialog;
+            ListTag texts = entry.getList("Texts", Tag.TAG_COMPOUND);
             if ("welcome".equals(entry.getString("Name"))) {
-                welcome = !entry.getList("Texts", Tag.TAG_COMPOUND).isEmpty();
+                welcome = !texts.isEmpty();
+            }
+            for (Tag text : texts) {
+                String line = ((CompoundTag) text).getString("Text");
+                usesInitiator |= line.contains("@initiator");
+                usesNpc |= line.contains("@npc");
             }
         }
         helper.assertTrue(welcome,
                 "the welcome dialog must exist and carry a text (registration and tasks)");
+        helper.assertTrue(usesInitiator,
+                "the dialog must address the player via @initiator, not a hardcoded name");
+        helper.assertTrue(usesNpc,
+                "the dialog must reference the character via @npc, not a hardcoded name");
         helper.succeed();
     }
 
