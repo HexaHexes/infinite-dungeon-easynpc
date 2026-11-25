@@ -6,8 +6,8 @@ and pulled in verbatim — **never hand-edit it.** Everything in this file is th
 repo's own and is edited freely; keep it aligned with the org rules rather than
 restating them.
 
-**Repo:** `HexaHexes/infinite-dungeon-easynpc` · **Mod ID:** `examplemod` · **Branch:** `neoforge-1.21.1` (the loader line; this is the default branch - no `main`)
-**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 · **Jar:** `build/libs/examplemod-neoforge-1.21.1-<version>.jar`
+**Repo:** `HexaHexes/infinite-dungeon-easynpc` · **Mod ID:** `infinite_dungeon_easynpc` · **Branch:** `neoforge-1.21.1` (the loader line; this is the default branch - no `main`)
+**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 · **Jar:** `build/libs/infinite_dungeon_easynpc-neoforge-1.21.1-<version>.jar`
 
 The optional EasyNPC module for Infinite Dungeon: the floor-1 counter
 receptionist (issue 1), the guild master in the floor-1 office (issue 2) and

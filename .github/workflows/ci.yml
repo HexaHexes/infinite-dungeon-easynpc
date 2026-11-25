@@ -109,7 +109,11 @@ jobs:
             exit 0
           fi
 
-          MOD_ID=$(grep '^mod_id=' gradle.properties | cut -d= -f2 | tr -d '[:space:]')
+          # Identity lives in identity.properties here; the gradle.properties
+          # identity keys are inert template leftovers (agents/REPO.md).
+          ID_FILE=identity.properties
+          [ -f "$ID_FILE" ] || ID_FILE=gradle.properties
+          MOD_ID=$(grep '^mod_id=' "$ID_FILE" | cut -d= -f2 | tr -d '[:space:]')
           JAR=$(ls build/libs/"$MOD_ID"-*.jar | head -1)
           echo "jar: $JAR"
 
