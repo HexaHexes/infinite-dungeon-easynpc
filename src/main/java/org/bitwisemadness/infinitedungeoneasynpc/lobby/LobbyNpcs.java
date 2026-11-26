@@ -31,17 +31,35 @@ public final class LobbyNpcs {
                     "infinite_dungeon_easynpc", "easy_npc/preset/receptionist.npc.snbt");
 
     /**
-     * The floor-1 counter position the receptionist stands at, as authored
-     * content. Pending the physical lobby geometry (infinite-dungeon #63, the
-     * tower-entrance construction) this is a documented constant the in-game
-     * check confirms; the import never guesses, it uses exactly this.
+     * The floor-0 counter position the receptionist stands at, as authored
+     * content in the fixed lobby's local coordinates (infinite-dungeon #300,
+     * the committed 7x21x7 lobby building): three cells south of the counter
+     * (lobby-local 2..4, 1, 2), facing it. The world position resolves from
+     * the lobby origin at the in-game check; the import never guesses.
      */
-    public static final Vec3 RECEPTIONIST_POSITION = new Vec3(0.0, 0.0, 0.0);
+    public static final Vec3 RECEPTIONIST_POSITION = new Vec3(3.0, 1.0, 3.0);
 
     /** The authored guild master preset (issue 2, data-driven content, not code). */
     public static final ResourceLocation GUILD_MASTER_PRESET =
             ResourceLocation.fromNamespaceAndPath(
                     "infinite_dungeon_easynpc", "easy_npc/preset/guild_master.npc.snbt");
+
+    /**
+     * The guild master's office position (issue 2): floor-0, back-left of the
+     * reception, lobby-local per the #300 geometry.
+     */
+    public static final Vec3 GUILD_MASTER_POSITION = new Vec3(1.0, 1.0, 4.0);
+
+    /** The authored adventurer preset (issue 3, data-driven content, not code). */
+    public static final ResourceLocation ADVENTURER_PRESET =
+            ResourceLocation.fromNamespaceAndPath(
+                    "infinite_dungeon_easynpc", "easy_npc/preset/adventurer.npc.snbt");
+
+    /**
+     * The adventurer's waystone-room position (issue 3): floor-4, in front of
+     * the waystone pedestal (lobby-local 3, 16, 3), per the #300 geometry.
+     */
+    public static final Vec3 ADVENTURER_POSITION = new Vec3(3.0, 17.0, 2.0);
 
     /** The slot table: one authored character per slot, on its fixed floor. */
     public static final LobbySlot RECEPTIONIST = new LobbySlot(
@@ -50,11 +68,6 @@ public final class LobbyNpcs {
     /** The guild master slot (issue 2): the floor-1 office, with its authored preset. */
     public static final LobbySlot GUILD_MASTER = new LobbySlot(
             "lobby_guild_master", LobbyFloor.GUILD_RECEPTION, Optional.of(GUILD_MASTER_PRESET));
-
-    /** The authored adventurer preset (issue 3, data-driven content, not code). */
-    public static final ResourceLocation ADVENTURER_PRESET =
-            ResourceLocation.fromNamespaceAndPath(
-                    "infinite_dungeon_easynpc", "easy_npc/preset/adventurer.npc.snbt");
 
     /** The adventurer slot (issue 3): the floor-5 waystone room, with its authored preset. */
     public static final LobbySlot ADVENTURER = new LobbySlot(
