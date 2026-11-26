@@ -12,6 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import org.bitwisemadness.infinitedungeoneasynpc.InfiniteDungeonEasyNpc;
@@ -218,6 +219,28 @@ public final class LobbyNpcGameTests {
         helper.assertTrue(welcome,
                 "the adventurer's welcome dialog must exist and carry a text");
         helper.succeed();
+    }
+
+    /**
+     * The authored positions sit on the authoritative floors of the committed
+     * lobby geometry (infinite-dungeon #300, the 7x21x7 building with 4-block
+     * floors): the receptionist and the guild master on floor 0, the
+     * adventurer on floor 4. Pinned here so the authored content cannot drift
+     * off the upstream construction.
+     */
+    @GameTest(template = "empty")
+    public static void authored_positions_sit_on_the_authoritative_floor(GameTestHelper helper) {
+        helper.assertTrue(floorOf(LobbyNpcs.RECEPTIONIST_POSITION) == LobbyFloor.GUILD_RECEPTION.index(),
+                "the receptionist must stand on floor 0, got " + LobbyNpcs.RECEPTIONIST_POSITION);
+        helper.assertTrue(floorOf(LobbyNpcs.GUILD_MASTER_POSITION) == LobbyFloor.GUILD_RECEPTION.index(),
+                "the guild master must stand on floor 0, got " + LobbyNpcs.GUILD_MASTER_POSITION);
+        helper.assertTrue(floorOf(LobbyNpcs.ADVENTURER_POSITION) == LobbyFloor.WAYSTONE_ROOM.index(),
+                "the adventurer must stand on floor 4, got " + LobbyNpcs.ADVENTURER_POSITION);
+        helper.succeed();
+    }
+
+    private static int floorOf(Vec3 position) {
+        return (int) position.y / 4; // the #300 lobby geometry: 4 blocks per floor
     }
 
     private static CompoundTag loadPreset(GameTestHelper helper, ResourceLocation location) {
