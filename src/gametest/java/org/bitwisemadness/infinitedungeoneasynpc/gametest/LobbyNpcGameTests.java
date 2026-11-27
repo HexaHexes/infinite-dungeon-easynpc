@@ -114,6 +114,15 @@ public final class LobbyNpcGameTests {
         helper.assertTrue(LobbyNpcs.ADVENTURER.floor() == LobbyFloor.WAYSTONE_ROOM
                         && LobbyNpcs.ADVENTURER.hasPreset(),
                 "the adventurers (issue 3) are on floor 4's waystone room with authored content");
+        helper.assertTrue(LobbyNpcs.ESSENTIALS_SHOPKEEPER.floor() == LobbyFloor.GUILD_SHOPS
+                        && !LobbyNpcs.ESSENTIALS_SHOPKEEPER.hasPreset(),
+                "the essentials shopkeeper is on floor 1, declared pending its authored content");
+        helper.assertTrue(LobbyNpcs.SPECIALISED_SHOPKEEPER.floor() == LobbyFloor.SPECIALISED_SHOPS
+                        && !LobbyNpcs.SPECIALISED_SHOPKEEPER.hasPreset(),
+                "the specialised shopkeeper is on floor 2, declared pending its authored content");
+        helper.assertTrue(LobbyNpcs.ADVANCED_SHOPKEEPER.floor() == LobbyFloor.ADVANCED_SHOPS
+                        && !LobbyNpcs.ADVANCED_SHOPKEEPER.hasPreset(),
+                "the advanced shopkeeper is on floor 3, declared pending its authored content");
         helper.succeed();
     }
 
@@ -236,6 +245,12 @@ public final class LobbyNpcGameTests {
                 "the guild master must stand on floor 0, got " + LobbyNpcs.GUILD_MASTER_POSITION);
         helper.assertTrue(floorOf(LobbyNpcs.ADVENTURER_POSITION) == LobbyFloor.WAYSTONE_ROOM.index(),
                 "the adventurer must stand on floor 4, got " + LobbyNpcs.ADVENTURER_POSITION);
+        helper.assertTrue(floorOf(LobbyNpcs.ESSENTIALS_SHOPKEEPER_POSITION) == LobbyFloor.GUILD_SHOPS.index(),
+                "the essentials shopkeeper must stand on floor 1, got " + LobbyNpcs.ESSENTIALS_SHOPKEEPER_POSITION);
+        helper.assertTrue(floorOf(LobbyNpcs.SPECIALISED_SHOPKEEPER_POSITION) == LobbyFloor.SPECIALISED_SHOPS.index(),
+                "the specialised shopkeeper must stand on floor 2, got " + LobbyNpcs.SPECIALISED_SHOPKEEPER_POSITION);
+        helper.assertTrue(floorOf(LobbyNpcs.ADVANCED_SHOPKEEPER_POSITION) == LobbyFloor.ADVANCED_SHOPS.index(),
+                "the advanced shopkeeper must stand on floor 3, got " + LobbyNpcs.ADVANCED_SHOPKEEPER_POSITION);
         helper.succeed();
     }
 

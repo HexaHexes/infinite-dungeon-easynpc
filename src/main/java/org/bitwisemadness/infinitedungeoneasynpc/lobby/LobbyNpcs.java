@@ -61,6 +61,18 @@ public final class LobbyNpcs {
      */
     public static final Vec3 ADVENTURER_POSITION = new Vec3(3.0, 17.0, 2.0);
 
+    /** The essentials-shopkeeper position: floor-1, in front of the counter
+     *  rows (lobby-local 3, 5, 3), per the #301 geometry. */
+    public static final Vec3 ESSENTIALS_SHOPKEEPER_POSITION = new Vec3(3.0, 5.0, 3.0);
+
+    /** The specialised-shopkeeper position: floor-2, in front of the spruce
+     *  counter row (lobby-local 3, 9, 3), per the #302 geometry. */
+    public static final Vec3 SPECIALISED_SHOPKEEPER_POSITION = new Vec3(3.0, 9.0, 3.0);
+
+    /** The advanced-shopkeeper position: floor-3, in front of the dark-oak
+     *  counter row (lobby-local 3, 13, 3), per the #302 geometry. */
+    public static final Vec3 ADVANCED_SHOPKEEPER_POSITION = new Vec3(3.0, 13.0, 3.0);
+
     /** The slot table: one authored character per slot, on its fixed floor. */
     public static final LobbySlot RECEPTIONIST = new LobbySlot(
             "lobby_receptionist", LobbyFloor.GUILD_RECEPTION, Optional.of(RECEPTIONIST_PRESET));
@@ -72,6 +84,20 @@ public final class LobbyNpcs {
     /** The adventurer slot (issue 3): the floor-5 waystone room, with its authored preset. */
     public static final LobbySlot ADVENTURER = new LobbySlot(
             "lobby_adventurer", LobbyFloor.WAYSTONE_ROOM, Optional.of(ADVENTURER_PRESET));
+
+    /** The essentials-shopkeeper slot: floor 1, behind the counter (declared
+     *  placement awaiting its authored content - the shopkeeper is flavour
+     *  behind the counter, the transaction is the Lightman's trader block). */
+    public static final LobbySlot ESSENTIALS_SHOPKEEPER = new LobbySlot(
+            "lobby_essentials_shopkeeper", LobbyFloor.GUILD_SHOPS, Optional.empty());
+
+    /** The specialised-shopkeeper slot: floor 2, behind the counter. */
+    public static final LobbySlot SPECIALISED_SHOPKEEPER = new LobbySlot(
+            "lobby_specialised_shopkeeper", LobbyFloor.SPECIALISED_SHOPS, Optional.empty());
+
+    /** The advanced-shopkeeper slot: floor 3, behind the counter. */
+    public static final LobbySlot ADVANCED_SHOPKEEPER = new LobbySlot(
+            "lobby_advanced_shopkeeper", LobbyFloor.ADVANCED_SHOPS, Optional.empty());
 
     private LobbyNpcs() {
     }
